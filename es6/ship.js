@@ -10,11 +10,9 @@ class SpaceShip extends Particle {
         this.radius = 10;
         this.angle = 270;
 
-        //this.weapon = new Weapon(this.main, this);
         this.weapon = new Rainbow(this.main, this);
 
         // Degrees to turn (in 1 second)
-        this.turn_amount = 300;
         this.turn_amount = 270;
         this.accel_normal = 150;
         this.accel_turbo = 5.5*this.accel_normal;
@@ -22,7 +20,7 @@ class SpaceShip extends Particle {
 
         this.color = {
             ship: {
-                fill: new Color(156, 232, 255, 0.2),
+                fill: new Color(31, 46, 51),
                 stroke: new Color(156, 232, 255, 0.95),
             },
             thrust: {
@@ -37,15 +35,15 @@ class SpaceShip extends Particle {
 
         this.shape = {
             ship: [
-                {x:10, y:0},
-                {x:-6,  y:7},
-                {x:-2,  y:0},
-                {x:-6, y:-7}
+                {x:15, y:0},
+                {x:-9,  y:11},
+                {x:-4,  y:0},
+                {x:-9, y:-11}
             ],
             thrust: [
                 {x:-11, y:0},
-                {x:-4, y:3},
-                {x:-4, y:-3}
+                {x:-5, y:3},
+                {x:-5, y:-3}
             ]
         };
     }
@@ -86,9 +84,10 @@ class SpaceShip extends Particle {
 
     fire(dt) {
         this.weapon._fire();
-        //var amount = (this.brake_amount*dt);
-        //var v = new Vector(amount, 0).rotate(this.angle+180);
-        //this.speed.add(v);
+    }
+
+    switch_weapon() {
+    
     }
 
     update(dt) {
@@ -104,14 +103,13 @@ class SpaceShip extends Particle {
             ctx.lineTo(p.x, p.y);
         }
         ctx.lineTo(startpoint.x, startpoint.y);
-        //ctx.fillStyle = this.color.ship.fill.to_canvas();
         ctx.fill();
         ctx.stroke();
     }
 
     render(ctx) {
-        this.render_ship(ctx);
         this.render_thrust(ctx);
+        this.render_ship(ctx);
         this.accelerating = false;
         this.turbo_on = false;
     }

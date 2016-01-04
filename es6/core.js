@@ -1,5 +1,4 @@
 
-
 /*
  * Keyboard Handling
  */
@@ -57,29 +56,33 @@ class Keyboard {
  */
 class GameCore {
     constructor() {
-        this.lastframetime = null;
         this.viewport_id = "viewport";
         this.viewport = document.querySelector("#" + this.viewport_id);
 
+        // When the last frame was shown
+        this.last_update = new Date();
+
+        // Keyboard helper
         this.keyboard = new Keyboard();
         this.keyboard.init();
-        this.last_update = new Date();
 
         this.origin = new Vector();
         this.space_ship = new SpaceShip(this);
         this.edge_threshhold = new Vector(window.innerWidth*0.2, window.innerHeight*0.2);
 
+        // Game state
         this.state = {};
         this.state.stars = [];
         this.state.planets = [];
         this.state.particles = [];
 
+        // Locally calculated eycandy
         this.props = {};
         this.props.stars = [];
 
         this.star_amount = 100;
         // ~ 100 stars on 1920 x 1080 resolution
-        this.star_amount= (window.innerWidth+window.innerHeight)/30;
+        this.star_amount = (window.innerWidth+window.innerHeight)/30;
     }
 
     get_viewport_size() {
@@ -184,7 +187,6 @@ class GameCore {
            this.keyboard.isdown(32)) {
             this.space_ship.fire(dt);
         }
-
         // Q
         if(this.keyboard.isdown(81)) {
             this.space_ship.switch_weapon();
@@ -251,13 +253,12 @@ class GameCore {
         ctx.fillText(this.state.particles.length + " PARTCLES",  140, 24);
 
         this.render_stars(ctx);
-        this.space_ship.render(ctx);
         this.render_particles(ctx);
+        this.space_ship.render(ctx);
     }
 
     render_particles(ctx) {
         //console.log(this.state.particles);
-        var i = 0;
         var remove = [];
         for (var i = this.state.particles.length - 1; i >= 0; i--) {
             var particle = this.state.particles[i];
